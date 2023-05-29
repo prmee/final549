@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thailand</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+      integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+      crossorigin="">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" />
+    <style>
+      #mapid {
+        height: 800px;
+      }
+    </style>
+    <script src="eiei.js"></script>
+  </head>
+  <body>
+    <div class="w3-row">
+      <div id="mapid" class="w3-half"></div>
+      <div id="content" class="w3-half">
+        <table class="w3-table w3-striped">
+          <tr>
+            <th>ชื่อร้านอาหาร</th>
+            <th>Rating</th>
+          </tr>
+        </table>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+      integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+      crossorigin=""></script>
+    <script>
+      var map = L.map("mapid").setView([13.736717, 100.523186], 8);
+      var osm = L.tileLayer(
+        "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+      ).addTo(map);
+
+      var restaurantLayer = L.layerGroup().addTo(map);
+
+      for (var i = 0; i < restaurants.length; i++) {
+        var restaurant = restaurants[i];
+        var marker = L.marker(restaurant.latlng).bindPopup(restaurant.name + "<br>Rating: " + restaurant.rating);
+        marker.addTo(restaurantLayer);
+
+        var table = document.querySelector("#content table");
+        var row = table.insertRow(-1);
+        var nameCell = row.insertCell(0);
+        var ratingCell = row.insertCell(1);
+        nameCell.innerHTML = restaurant.name;
+        ratingCell.innerHTML = restaurant.rating;
+      }
+
+      function getRandomRating(min, max) {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+      }
+    </script>
+  </body>
+</html>
